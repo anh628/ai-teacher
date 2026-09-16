@@ -1,5 +1,7 @@
-import { useState } from "react";
 import type { LessonPlan } from "@ai-teacher/shared";
+import { generateLessonPlan } from "./api/lessonApi";
+import { useState } from "react";
+
 import "./App.css";
 
 function App() {
@@ -20,28 +22,13 @@ function App() {
     setLessonPlan(null);
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/lessons/generate`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            grade: Number(grade),
-            subject,
-            topic,
-            objective,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to generate lesson.");
-      }
-
-      const data: LessonPlan = await response.json();
-      setLessonPlan(data);
+      const lessonPlan = await generateLessonPlan({
+        grade: Number(grade),
+        subject,
+        topic,
+        objective,
+      });
+      setLessonPlan(lessonPlan);
     } catch (err) {
       setError(
         "Unable to generate the lesson. Make sure the backend is running.",
