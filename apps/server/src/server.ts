@@ -1,6 +1,6 @@
 import cors from "cors";
 import express from "express";
-import type { LessonPlanRequest } from "@ai-teacher/shared";
+import lessonRoutes from "./routes/lessonRoutes";
 
 const app = express();
 const PORT = 3001;
@@ -15,16 +15,7 @@ app.get("/api/health", (_req, res) => {
   });
 });
 
-app.post("/api/lesson-plans", (req, res) => {
-  const lessonRequest: LessonPlanRequest = req.body;
-
-  console.log("Lesson plan request:", lessonRequest);
-
-  res.json({
-    message: "Lesson plan request received",
-    data: lessonRequest,
-  });
-});
+app.use("/api/lessons", lessonRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running at http://localhost:${PORT}`);
