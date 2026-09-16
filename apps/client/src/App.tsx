@@ -21,7 +21,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/lessons/generate",
+        `${import.meta.env.VITE_API_URL}/api/lessons/generate`,
         {
           method: "POST",
           headers: {
