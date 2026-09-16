@@ -63,6 +63,7 @@ function App() {
           <label>
             Grade
             <input
+              id="grade"
               type="number"
               min="1"
               max="12"
@@ -70,12 +71,15 @@ function App() {
               onChange={(event) => setGrade(event.target.value)}
               placeholder="5"
               required
+              inputMode="numeric"
+              step="1"
             />
           </label>
 
           <label>
             Subject
             <input
+              id="subject"
               type="text"
               value={subject}
               onChange={(event) => setSubject(event.target.value)}
@@ -87,6 +91,7 @@ function App() {
           <label>
             Topic
             <input
+              id="topic"
               type="text"
               value={topic}
               onChange={(event) => setTopic(event.target.value)}
@@ -98,6 +103,7 @@ function App() {
           <label>
             Learning Goal
             <textarea
+              id="objective"
               value={objective}
               onChange={(event) => setObjective(event.target.value)}
               placeholder="Students will be able to explain the main stages of the water cycle."
