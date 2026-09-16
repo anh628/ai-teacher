@@ -1,0 +1,8 @@
+{
+  "name": "ai-teacher",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
