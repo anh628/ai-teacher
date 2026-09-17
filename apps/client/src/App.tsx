@@ -1,71 +1,70 @@
-import LessonRequestForm from "./components/LessonRequestForm";
+import LessonsHistoryDisplay from "./components/LessonsHistoryDisplay";
+import GenerateLessonPage from "./pages/GenerateLessonPage";
 import LessonDisplay from "./components/LessonDisplay";
-
 import type { Lesson } from "@ai-teacher/shared";
-import { generateLesson } from "./api/lessonApi";
 import { useState } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  useNavigate,
+} from "react-router-dom";
 
 import "./App.css";
+import LessonDetailsPage from "./pages/LessonDetailsPage";
 
-function App() {
-  const [grade, setGrade] = useState<string>("");
-  const [subject, setSubject] = useState<string>("");
-  const [topic, setTopic] = useState<string>("");
-  const [objective, setObjective] = useState<string>("");
-
+function AppContent() {
   const [lesson, setLesson] = useState<Lesson | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
+  
   const [error, setError] = useState<string>("");
 
-  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
-    event.preventDefault();
+  const navigate = useNavigate();
 
-    setLoading(true);
-    setError("");
-    setLesson(null);
-
-    try {
-      const lesson = await generateLesson({
-        grade: Number(grade),
-        subject,
-        topic,
-        objective,
-      });
-      setLesson(lesson);
-    } catch (err) {
-      setError(`${err}`);
-    } finally {
-      setLoading(false);
-    }
+  function handleLessonGenerated(lesson: Lesson) {
+    setLesson(lesson);
+    navigate("/lesson");
   }
 
   return (
-    <main className="app">
+    <div className="app">
       <header>
         <h1>AI Classroom Assistant</h1>
-        <p>Generate a structured lesson  from a few simple inputs.</p>
-      </header>
 
-      {!lesson && (
-        <LessonRequestForm
-          handleSubmit={handleSubmit}
-          loading={loading}
-          setGrade={setGrade}
-          setSubject={setSubject}
-          setTopic={setTopic}
-          setObjective={setObjective}
-          grade={grade}
-          subject={subject}
-          topic={topic}
-          objective={objective}
-        />
-      )}
+        <nav>
+          <Link to="/">Generate Lesson </Link>
+          {" | "}
+          <Link to="/history">Lessons History</Link>
+        </nav>
+      </header>
 
       {error && <p className="error">{error}</p>}
 
-      {lesson && <LessonDisplay lesson={lesson} setError={setError}/>}
-    </main>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <GenerateLessonPage
+              onLessonGenerated={handleLessonGenerated}
+              setError={setError}
+            />
+          }
+        />
+        <Route
+          path="/lesson"
+          element={<LessonDisplay lesson={lesson} setError={setError} />}
+        />
+        <Route path="/history" element={<LessonsHistoryDisplay setError={setError}/>} />
+        <Route path="/history/:id" element={<LessonDetailsPage setError={setError}/>} />
+      </Routes>
+    </div>
   );
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
+    </BrowserRouter>
+  );
+}

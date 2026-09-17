@@ -12,7 +12,7 @@ export async function generateLesson(request: LessonRequest): Promise<Lesson> {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to generate lesson plan, check inputs");
+    throw new Error("Failed to generate lesson, check inputs");
   }
 
   return response.json();
@@ -28,7 +28,27 @@ export async function saveLesson(request: Lesson): Promise<SavedLesson> {
   });
 
   if (!response.ok) {
-    throw new Error("Failed to save lesson plan");
+    throw new Error("Failed to save lesson");
+  }
+
+  return response.json();
+}
+
+export async function getAllLessons(): Promise<SavedLesson[]> {
+  const response = await fetch(`${API_URL}/api/lessons`);
+
+  if (!response.ok) {
+    throw new Error("Failed to retrieve lessons.");
+  }
+
+  return response.json();
+}
+
+export async function getLessonById(id: number): Promise<SavedLesson> {
+  const response = await fetch(`${API_URL}/api/lessons/${id}`);
+
+  if (!response.ok) {
+    throw new Error("Failed to retrieve lesson.");
   }
 
   return response.json();

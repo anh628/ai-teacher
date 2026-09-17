@@ -23,5 +23,5 @@ export type Lesson = {
 
 export interface SavedLesson extends Lesson {
   id: number;
-  generatedBy: string;
+  createdAt: string;
 };
