@@ -1,1 +1,1 @@
-export type { LessonPlanRequest, LessonPlan, SavedLessonPlan } from "./types.js";
+export type { LessonRequest, Lesson, SavedLesson } from "./types.js";

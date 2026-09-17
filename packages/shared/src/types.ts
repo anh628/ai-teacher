@@ -1,11 +1,11 @@
-export type LessonPlanRequest = {
+export type LessonRequest = {
   grade: number;
   subject: string;
   topic: string;
   objective: string;
 };
 
-export type LessonPlan = {
+export type Lesson = {
   grade: number;
   subject: string;
   topic: string;
@@ -21,7 +21,7 @@ export type LessonPlan = {
   generatedBy: string;
 };
 
-export interface SavedLessonPlan extends LessonPlan {
+export interface SavedLesson extends Lesson {
   id: number;
   generatedBy: string;
 };

@@ -1,7 +1,7 @@
 import { pool } from "./index";
-import type { LessonPlan } from "@ai-teacher/shared";
+import type { Lesson } from "@ai-teacher/shared";
 
-export async function saveLesson(lesson: LessonPlan) {
+export async function saveLesson(lesson: Lesson) {
   const result = await pool.query(
     `
       INSERT INTO lessons (

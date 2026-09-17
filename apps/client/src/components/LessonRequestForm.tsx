@@ -1,6 +1,6 @@
 import React from 'react'
 
-type LessonPlanRequestFormProps = {
+type LessonRequestFormProps = {
   handleSubmit: (event: React.SubmitEvent<HTMLFormElement>) => void;
   loading: boolean;
   setGrade: (grade: string) => void;
@@ -13,7 +13,7 @@ type LessonPlanRequestFormProps = {
   objective: string;
 };
 
-export default function LessonPlanRequestForm({
+export default function LessonRequestForm({
   handleSubmit,
   loading,
   setGrade,
@@ -24,7 +24,7 @@ export default function LessonPlanRequestForm({
   subject,
   topic,
   objective,
-}: LessonPlanRequestFormProps) {
+}: LessonRequestFormProps) {
   return (
     <section className="form-section">
       <form onSubmit={handleSubmit}>

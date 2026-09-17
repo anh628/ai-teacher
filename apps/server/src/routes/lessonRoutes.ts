@@ -1,4 +1,4 @@
-import { validateLessonPlan, validateLessonRequest } from "../utils/validateLessonRequest";
+import { validateLesson, validateLessonRequest } from "../utils/validateLessonRequest";
 import { generate } from "../services/mockAiServices";
 import { saveLesson } from "../db/lessonRepository";
 import { Router, Request, Response } from "express";
@@ -6,7 +6,7 @@ const router = Router();
 
 /**
  * @route POST /api/lessons/generate
- * @desc Generate a lesson plan based on the provided input parameters.
+ * @desc Generate a lesson based on the provided input parameters.
  * @access Public
  */
 router.post("/generate", (req: Request, res: Response) => {
@@ -15,7 +15,7 @@ router.post("/generate", (req: Request, res: Response) => {
   if (!validateLessonRequest({ grade, subject, topic, objective })) {
     return res.status(400).json({
       error:
-        "Invalid lesson plan request. Please ensure that grade is an integer between 1 and 12, and subject, topic, and objective are non-empty strings.",
+        "Invalid lesson request. Please ensure that grade is an integer between 1 and 12, and subject, topic, and objective are non-empty strings.",
     });
   }
   try {
@@ -33,10 +33,10 @@ router.post("/generate", (req: Request, res: Response) => {
 
 /**
  * @route POST /api/lessons/save
- * @desc save the lesson plan to ai_teacher database
+ * @desc save the lesson to ai_teacher database
  */
 router.post("/save", async (req: Request, res:Response) => {
-  if (!validateLessonPlan(req.body)) {
+  if (!validateLesson(req.body)) {
     return res.status(400).json({
       error: "Unable to save lesson to database. Invalid lesson"
     })

@@ -1,13 +1,13 @@
-import type { LessonPlan, LessonPlanRequest } from "@ai-teacher/shared";
+import type { Lesson, LessonRequest } from "@ai-teacher/shared";
 
 /**
- * Validates a lesson plan request
- * @param request The lesson plan request to validate
+ * Validates a lesson request
+ * @param request The lesson request to validate
  * @returns True if the request is valid, false otherwise
  */
 export function validateLessonRequest(
   request: unknown,
-): request is LessonPlanRequest {
+): request is LessonRequest {
   if (typeof request !== "object" || request === null) {
     return false;
   }
@@ -32,13 +32,13 @@ export function validateLessonRequest(
 }
 
 /**
- * Validates a lesson plan
+ * Validates a lesson
  * @param request the lesson plan to validate
  * @returns true if the request is valid, false otherwise
  */
-export function validateLessonPlan(
+export function validateLesson(
   request: unknown,
-): request is LessonPlan {
+): request is Lesson {
   if (typeof request !== "object" || request === null) {
     return false;
   }

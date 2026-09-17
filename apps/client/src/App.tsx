@@ -1,8 +1,8 @@
-import LessonPlanRequestForm from "./components/LessonPlanRequestForm";
-import LessonPlanDisplay from "./components/LessonPlanDisplay";
+import LessonRequestForm from "./components/LessonRequestForm";
+import LessonDisplay from "./components/LessonDisplay";
 
-import type { LessonPlan } from "@ai-teacher/shared";
-import { generateLessonPlan } from "./api/lessonApi";
+import type { Lesson } from "@ai-teacher/shared";
+import { generateLesson } from "./api/lessonApi";
 import { useState } from "react";
 
 import "./App.css";
@@ -13,7 +13,7 @@ function App() {
   const [topic, setTopic] = useState<string>("");
   const [objective, setObjective] = useState<string>("");
 
-  const [lessonPlan, setLessonPlan] = useState<LessonPlan | null>(null);
+  const [lesson, setLesson] = useState<Lesson | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
@@ -22,16 +22,16 @@ function App() {
 
     setLoading(true);
     setError("");
-    setLessonPlan(null);
+    setLesson(null);
 
     try {
-      const lessonPlan = await generateLessonPlan({
+      const lesson = await generateLesson({
         grade: Number(grade),
         subject,
         topic,
         objective,
       });
-      setLessonPlan(lessonPlan);
+      setLesson(lesson);
     } catch (err) {
       setError(`${err}`);
     } finally {
@@ -43,11 +43,11 @@ function App() {
     <main className="app">
       <header>
         <h1>AI Classroom Assistant</h1>
-        <p>Generate a structured lesson plan from a few simple inputs.</p>
+        <p>Generate a structured lesson  from a few simple inputs.</p>
       </header>
 
-      {!lessonPlan && (
-        <LessonPlanRequestForm
+      {!lesson && (
+        <LessonRequestForm
           handleSubmit={handleSubmit}
           loading={loading}
           setGrade={setGrade}
@@ -63,7 +63,7 @@ function App() {
 
       {error && <p className="error">{error}</p>}
 
-      {lessonPlan && <LessonPlanDisplay lessonPlan={lessonPlan} setError={setError}/>}
+      {lesson && <LessonDisplay lesson={lesson} setError={setError}/>}
     </main>
   );
 }
