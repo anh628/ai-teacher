@@ -1,6 +1,7 @@
-import { Router, Request, Response } from "express";
+import { validateLessonPlan, validateLessonRequest } from "../utils/validateLessonRequest";
 import { generate } from "../services/mockAiServices";
-import { validateLessonRequest } from "../utils/validateLessonRequest";
+import { saveLesson } from "../db/lessonRepository";
+import { Router, Request, Response } from "express";
 const router = Router();
 
 /**
@@ -26,7 +27,30 @@ router.post("/generate", (req: Request, res: Response) => {
     });
     res.json(lesson);
   } catch (error) {
-    res.status(500).json({ error: "Failed to generate lesson plan" });
+    res.status(500).json({ error });
+  }
+});
+
+/**
+ * @route POST /api/lessons/save
+ * @desc save the lesson plan to ai_teacher database
+ */
+router.post("/save", async (req: Request, res:Response) => {
+  if (!validateLessonPlan(req.body)) {
+    return res.status(400).json({
+      error: "Unable to save lesson to database. Invalid lesson"
+    })
+  }
+  try {
+    const savedLesson = await saveLesson(req.body);
+
+    return res.status(201).json(savedLesson);
+  } catch (error) {
+    console.error("Failed to save lesson:", error);
+
+    return res.status(500).json({
+      error: "Failed to save lesson",
+    });
   }
 });
 
