@@ -1,8 +1,8 @@
-import type {LessonPlanRequest, LessonPlan, SavedLessonPlan} from "@ai-teacher/shared";
+import type {LessonRequest, Lesson, SavedLesson} from "@ai-teacher/shared";
 
 const API_URL = import.meta.env.VITE_API_URL
 
-export async function generateLessonPlan(request: LessonPlanRequest): Promise<LessonPlan> {
+export async function generateLesson(request: LessonRequest): Promise<Lesson> {
   const response = await fetch(`${API_URL}/api/lessons/generate`, {
     method: "POST",
     headers: {
@@ -18,7 +18,7 @@ export async function generateLessonPlan(request: LessonPlanRequest): Promise<Le
   return response.json();
 }
 
-export async function saveLessonPlan(request: LessonPlan): Promise<SavedLessonPlan> {
+export async function saveLesson(request: Lesson): Promise<SavedLesson> {
   const response = await fetch(`${API_URL}/api/lessons/save`, {
     method: "POST",
     headers: {
