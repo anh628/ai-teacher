@@ -33,9 +33,7 @@ function App() {
       });
       setLessonPlan(lessonPlan);
     } catch (err) {
-      setError(
-        "Unable to generate the lesson. Make sure the backend is running.",
-      );
+      setError(`${err}`);
     } finally {
       setLoading(false);
     }
@@ -65,7 +63,7 @@ function App() {
 
       {error && <p className="error">{error}</p>}
 
-      {lessonPlan && <LessonPlanDisplay lessonPlan={lessonPlan} />}
+      {lessonPlan && <LessonPlanDisplay lessonPlan={lessonPlan} setError={setError}/>}
     </main>
   );
 }

@@ -20,3 +20,8 @@ export type LessonPlan = {
   assessment: string;
   generatedBy: string;
 };
+
+export interface SavedLessonPlan extends LessonPlan {
+  id: number;
+  generatedBy: string;
+};
