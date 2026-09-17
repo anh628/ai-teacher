@@ -1,6 +1,13 @@
-import { validateLesson, validateLessonRequest } from "../utils/validateLessonRequest";
+import {
+  validateLesson,
+  validateLessonRequest,
+} from "../utils/validateLessonRequest";
 import { generate } from "../services/mockAiServices";
-import { saveLesson } from "../db/lessonRepository";
+import {
+  getAllLessons,
+  getLessonById,
+  saveLesson,
+} from "../db/lessonRepository";
 import { Router, Request, Response } from "express";
 const router = Router();
 
@@ -35,11 +42,11 @@ router.post("/generate", (req: Request, res: Response) => {
  * @route POST /api/lessons/save
  * @desc save the lesson to ai_teacher database
  */
-router.post("/save", async (req: Request, res:Response) => {
+router.post("/save", async (req: Request, res: Response) => {
   if (!validateLesson(req.body)) {
     return res.status(400).json({
-      error: "Unable to save lesson to database. Invalid lesson"
-    })
+      error: "Unable to save lesson to database. Invalid lesson plan.",
+    });
   }
   try {
     const savedLesson = await saveLesson(req.body);
@@ -50,6 +57,54 @@ router.post("/save", async (req: Request, res:Response) => {
 
     return res.status(500).json({
       error: "Failed to save lesson",
+    });
+  }
+});
+
+/**
+ * @route GET /api/lessons
+ * @desc get all lessons in ai_teacher database
+ */
+router.get("/", async (_req: Request, res: Response) => {
+  try {
+    const lesson = await getAllLessons();
+    return res.json(lesson);
+  } catch (error) {
+    console.error("Failed to retrieve lessons:", error);
+    return res.status(500).json({
+      error: "Failed to retrieve lessons.",
+    });
+  }
+});
+
+/**
+ * @route GET /api/lessons/id
+ * @desc get lesson with id in ai_teacher database
+ */
+router.get("/:id", async (req: Request, res: Response) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id)) {
+    return res.status(400).json({
+      error: "Invalid lesson ID",
+    });
+  }
+
+  try {
+    const lesson = await getLessonById(id);
+
+    if (!lesson) {
+      return res.status(404).json({
+        error: "Lesson not found",
+      });
+    }
+
+    return res.json(lesson);
+  } catch (error) {
+    console.error("Failed to retrieve lesson:", error);
+
+    return res.status(500).json({
+      error: "Failed to retrieve lesson",
     });
   }
 });

@@ -1,32 +1,51 @@
-import React from 'react'
+import type { Lesson } from "@ai-teacher/shared";
+import { generateLesson } from "../api/lessonApi";
+import { useState } from "react";
 
-type LessonRequestFormProps = {
-  handleSubmit: (event: React.SubmitEvent<HTMLFormElement>) => void;
-  loading: boolean;
-  setGrade: (grade: string) => void;
-  setSubject: (subject: string) => void;
-  setTopic: (topic: string) => void;
-  setObjective: (objective: string) => void;
-  grade: string;
-  subject: string;
-  topic: string;
-  objective: string;
+type GenerateLessonPageProps = {
+  onLessonGenerated: (lesson: Lesson) => void;
+  setError: (message: string) => void;
 };
 
-export default function LessonRequestForm({
-  handleSubmit,
-  loading,
-  setGrade,
-  setSubject,
-  setTopic,
-  setObjective,
-  grade,
-  subject,
-  topic,
-  objective,
-}: LessonRequestFormProps) {
+export default function GenerateLessonPage({
+  onLessonGenerated,
+  setError,
+}: GenerateLessonPageProps) {
+  const [grade, setGrade] = useState<string>("");
+  const [subject, setSubject] = useState<string>("");
+  const [topic, setTopic] = useState<string>("");
+  const [objective, setObjective] = useState<string>("");
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  async function handleSubmit(event: React.SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    setLoading(true);
+    setError("");
+
+    try {
+      const lesson = await generateLesson({
+        grade: Number(grade),
+        subject,
+        topic,
+        objective,
+      });
+
+      onLessonGenerated(lesson);
+    } catch (error) {
+      setError(
+        "Unable to generate the lesson. Make sure the backend is running.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return (
     <section className="form-section">
+      <h2>Generate a Lesson</h2>
+
       <form onSubmit={handleSubmit}>
         <label>
           Grade

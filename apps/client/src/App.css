@@ -17,6 +17,13 @@ header {
   border-radius: 8px;
 }
 
+.lesson-history{
+  text-align: left;
+}
+
+.lesson-history h2{
+  text-align: center;
+}
 form {
   display: flex;
   flex-direction: column;
