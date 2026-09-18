@@ -22,6 +22,7 @@ function AppContent() {
   const navigate = useNavigate();
 
   function handleLessonGenerated(lesson: Lesson) {
+    setError("");
     setLesson(lesson);
     navigate("/lesson");
   }
@@ -32,7 +33,8 @@ function AppContent() {
         <h1>AI Classroom Assistant</h1>
 
         <nav>
-          <Link to="/">Generate Lesson </Link>
+          {/* clears old error */}
+          <Link to="/" onClick={() => setError("")}>Generate Lesson </Link>
           {" | "}
           <Link to="/history">Lessons History</Link>
         </nav>
