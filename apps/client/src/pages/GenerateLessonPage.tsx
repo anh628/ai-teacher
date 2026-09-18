@@ -35,7 +35,9 @@ export default function GenerateLessonPage({
       onLessonGenerated(lesson);
     } catch (error) {
       setError(
-        "Unable to generate the lesson. Make sure the backend is running.",
+        error instanceof Error
+          ? error.message
+          : "Unable to generate the lesson. Please try again.",
       );
     } finally {
       setLoading(false);
