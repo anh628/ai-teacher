@@ -7,6 +7,19 @@
 
 header {
   margin-bottom: 2rem;
+  text-align: center;
+}
+
+nav {
+  font-size: 0.95rem;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
 }
 
 .form-section,
@@ -17,13 +30,6 @@ header {
   border-radius: 8px;
 }
 
-.lesson-history{
-  text-align: left;
-}
-
-.lesson-history h2{
-  text-align: center;
-}
 form {
   display: flex;
   flex-direction: column;
@@ -76,5 +82,44 @@ button:disabled {
 }
 
 .error {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid #b00020;
+  border-radius: 4px;
   color: #b00020;
+  background: #fff5f5;
+}
+
+.lesson-history {
+  text-align: left;
+}
+
+.lesson-history h2 {
+  text-align: center;
+}
+
+.lesson-history ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.lesson-history li {
+  margin-bottom: 1rem;
+}
+
+.lesson-history a {
+  display: block;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-decoration: none;
+}
+
+.lesson-history a:hover {
+  background: #f7f7f7;
+}
+
+.lesson-history h3 {
+  margin-top: 0;
 }
