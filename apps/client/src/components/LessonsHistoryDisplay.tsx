@@ -21,7 +21,11 @@ export default function LessonsHistoryDisplay({
         const data = await getAllLessons();
         setLessons(data);
       } catch (error) {
-        setError(`Unable to load lessons history. ${error}`);
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Unable to get lessons history. Please try again.",
+        );
       } finally {
         setLoading(false);
       }
@@ -44,7 +48,7 @@ export default function LessonsHistoryDisplay({
         <ul>
           {lessons.map((lesson) => (
             <li key={lesson.id}>
-              <Link to={`/history/${lesson.id}`} >
+              <Link to={`/history/${lesson.id}`}>
                 <h3>{lesson.lessonTitle}</h3>
 
                 <p>

@@ -28,7 +28,11 @@ export default function LessonDetailsPage({
         const data = await getLessonById(Number(id));
         setLesson(data);
       } catch (error) {
-        setError(`Unable to load lesson. ${error}`);
+        setError(
+          error instanceof Error
+            ? error.message
+            : "Unable to load the lesson. Please try again.",
+        );
       } finally {
         setLoading(false);
       }

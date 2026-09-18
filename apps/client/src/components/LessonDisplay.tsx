@@ -24,7 +24,11 @@ export default function LessonDisplay({
       await saveLesson(lesson);
       setSaved(true);
     } catch (error) {
-      setError(`Unable to save the lesson. ${error}`);
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Unable to save the lesson. Please try again.",
+      );
     } finally {
       setSaving(false);
     }
