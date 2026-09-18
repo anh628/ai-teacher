@@ -1,6 +1,6 @@
-import type {LessonRequest, Lesson, SavedLesson} from "@ai-teacher/shared";
+import type { LessonRequest, Lesson, SavedLesson } from "@ai-teacher/shared";
 
-const API_URL = import.meta.env.VITE_API_URL
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function generateLesson(request: LessonRequest): Promise<Lesson> {
   const response = await fetch(`${API_URL}/api/lessons/generate`, {
@@ -48,8 +48,15 @@ export async function getLessonById(id: number): Promise<SavedLesson> {
   const response = await fetch(`${API_URL}/api/lessons/${id}`);
 
   if (!response.ok) {
-    throw new Error("Failed to retrieve lesson.");
-  }
+    if (response.status === 404) {
+      throw new Error("Lesson not found.");
+    }
 
+    if (response.status === 400) {
+      throw new Error("Invalid lesson ID.");
+    }
+
+    throw new Error("Unable to retrieve lesson.");
+  }
   return response.json();
 }
