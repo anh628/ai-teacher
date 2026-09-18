@@ -15,17 +15,18 @@ export default function LessonDisplay({
   const [saving, setSaving] = useState<boolean>(false);
 
   async function handleSave() {
-    if (lesson) {
-      setSaving(true);
-      try {
-        await saveLesson(lesson);
-        setSaved(true);
-        alert("Lesson  saved");
-      } catch (error) {
-        setError(`Unable to save the lesson. ${error}`);
-      } finally {
-        setSaving(false);
-      }
+    if (!lesson || "id" in lesson) {
+      return;
+    }
+
+    setSaving(true);
+    try {
+      await saveLesson(lesson);
+      setSaved(true);
+    } catch (error) {
+      setError(`Unable to save the lesson. ${error}`);
+    } finally {
+      setSaving(false);
     }
   }
 

@@ -47,56 +47,51 @@ export default function GenerateLessonPage({
       <h2>Generate a Lesson</h2>
 
       <form onSubmit={handleSubmit}>
-        <label>
-          Grade
-          <input
-            id="grade"
-            type="number"
-            min="1"
-            max="12"
-            value={grade}
-            onChange={(event) => setGrade(event.target.value)}
-            placeholder="5"
-            required
-            inputMode="numeric"
-            step="1"
-          />
-        </label>
+        <label htmlFor="grade">Grade</label>
+        <input
+          id="grade"
+          type="number"
+          min="1"
+          max="12"
+          value={grade}
+          onChange={(event) => setGrade(event.target.value)}
+          placeholder="5"
+          required
+          inputMode="numeric"
+          step="1"
+        />
 
-        <label>
-          Subject
-          <input
-            id="subject"
-            type="text"
-            value={subject}
-            onChange={(event) => setSubject(event.target.value)}
-            placeholder="Science"
-            required
-          />
-        </label>
+        <label htmlFor="subject">Subject</label>
 
-        <label>
-          Topic
-          <input
-            id="topic"
-            type="text"
-            value={topic}
-            onChange={(event) => setTopic(event.target.value)}
-            placeholder="The Water Cycle"
-            required
-          />
-        </label>
+        <input
+          id="subject"
+          type="text"
+          value={subject}
+          onChange={(event) => setSubject(event.target.value)}
+          placeholder="Science"
+          required
+        />
 
-        <label>
-          Learning Goal
-          <textarea
-            id="objective"
-            value={objective}
-            onChange={(event) => setObjective(event.target.value)}
-            placeholder="Students will be able to explain the main stages of the water cycle."
-            required
-          />
-        </label>
+        <label htmlFor="topic">Topic</label>
+
+        <input
+          id="topic"
+          type="text"
+          value={topic}
+          onChange={(event) => setTopic(event.target.value)}
+          placeholder="The Water Cycle"
+          required
+        />
+
+        <label htmlFor="objective">Objective</label>
+
+        <textarea
+          id="objective"
+          value={objective}
+          onChange={(event) => setObjective(event.target.value)}
+          placeholder="Students will be able to explain the main stages of the water cycle."
+          required
+        />
 
         <button type="submit" disabled={loading}>
           {loading ? "Generating..." : "Generate Lesson"}
