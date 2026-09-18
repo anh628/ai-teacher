@@ -40,31 +40,38 @@ export default function LessonsHistoryDisplay({
 
   return (
     <section className="lesson-history">
-      <h2>Lessons History</h2>
+      <div className="history-header">
+          <h2>Lesson History</h2>
+      </div>
+
+      <div className="history-meta">
+        <small>
+         Saved {lessons.length === 1 ? "lesson" : "lessons"} : {lessons.length} 
+        </small>
+      </div>
 
       {lessons.length === 0 ? (
-        <p>No saved lessons yet.</p>
+        <div className="empty-history">
+          <p>No saved lessons yet.</p>
+          <p>Generate a lesson and save it to see it here.</p>
+        </div>
       ) : (
-        <ul>
+        <ul className="lesson-history-list">
           {lessons.map((lesson) => (
             <li key={lesson.id}>
               <Link to={`/history/${lesson.id}`}>
-                <h3>{lesson.lessonTitle}</h3>
+                <div className="history-card-header">
+                  <h3>{lesson.lessonTitle}</h3>
+                </div>
 
-                <p>
-                  <strong>Grade:</strong> {lesson.grade}
-                </p>
-
-                <p>
-                  <strong>Subject:</strong> {lesson.subject}
-                </p>
-
-                <p>
-                  <strong>Topic:</strong> {lesson.topic}
-                </p>
+                <div className="history-card-meta">
+                  <span>Grade {lesson.grade}</span>
+                  <span>{lesson.subject}</span>
+                  <span>{lesson.topic}</span>
+                </div>
 
                 <small>
-                  Saved: {new Date(lesson.createdAt).toLocaleString()}
+                  Saved {new Date(lesson.createdAt).toLocaleString()}
                 </small>
               </Link>
             </li>

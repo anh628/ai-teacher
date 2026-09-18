@@ -46,7 +46,10 @@ export default function GenerateLessonPage({
 
   return (
     <section className="form-section">
-      <h2>Generate a Lesson</h2>
+      <div className="form-header">
+        <h2>Generate a Lesson</h2>
+        <p>Enter a few details and generate a structured lesson plan.</p>
+      </div>
 
       <form onSubmit={handleSubmit}>
         <label htmlFor="grade">Grade</label>
@@ -94,6 +97,12 @@ export default function GenerateLessonPage({
           placeholder="Students will be able to explain the main stages of the water cycle."
           required
         />
+
+        {loading && (
+          <p role="status" aria-live="polite">
+            Generating your lesson...
+          </p>
+        )}
 
         <button type="submit" disabled={loading}>
           {loading ? "Generating..." : "Generate Lesson"}

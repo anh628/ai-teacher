@@ -22,6 +22,19 @@ nav a:hover {
   text-decoration: underline;
 }
 
+.form-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-header h2 {
+  margin: 0.25rem 0 0.5rem;
+}
+
+.form-header p:last-child {
+  margin: 0;
+}
+
 .form-section,
 .lesson {
   padding: 1.5rem;
@@ -49,7 +62,6 @@ textarea {
   font: inherit;
   border: 1px solid #bbb;
   border-radius: 4px;
-
 }
 
 textarea {
@@ -90,36 +102,169 @@ button:disabled {
   background: #fff5f5;
 }
 
-.lesson-history {
-  text-align: left;
+.lesson-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.lesson-history h2 {
+.lesson-header h2 {
+  margin-bottom: 0;
   text-align: center;
 }
 
-.lesson-history ul {
+.lesson-label {
+  margin: 0 0 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.lesson-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.lesson-meta div {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.lesson-meta span {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+}
+
+.lesson-meta strong {
+  font-size: 1rem;
+}
+
+.lesson-section {
+  padding-top: 1.5rem;
+  margin-top: 1.5rem;
+  border-top: 1px solid #ddd;
+}
+
+.lesson-section h3 {
+  margin-top: 0;
+}
+
+.lesson-section li {
+  margin-bottom: 0.5rem;
+}
+
+.differentiation-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.differentiation-grid div {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+}
+
+.differentiation-grid h4 {
+  margin-top: 0;
+}
+
+.lesson-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  margin-top: 2rem;
+  border-top: 1px solid #ddd;
+}
+
+.lesson-count {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.lesson-history-list {
   padding: 0;
   margin: 0;
   list-style: none;
 }
 
-.lesson-history li {
+.lesson-history-list li {
   margin-bottom: 1rem;
 }
 
-.lesson-history a {
+.lesson-history-list a {
   display: block;
-  padding: 1rem;
+  padding: 1.25rem;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-radius: 8px;
   text-decoration: none;
 }
 
-.lesson-history a:hover {
-  background: #f7f7f7;
+.lesson-history-list a:hover {
+  background-color: #e5eaf5;
+  color: #8458B3;
 }
 
-.lesson-history h3 {
-  margin-top: 0;
+.history-header {
+  text-align: center;
+}
+
+.history-header h2 {
+  margin-bottom: 0.25rem;
+}
+
+.history-meta {
+  text-align: end;
+}
+
+.history-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.history-card-meta span {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 999px;
+  font-size: 0.85rem;
+}
+
+.empty-history {
+  padding: 2rem;
+  text-align: center;
+  border: 1px dashed #bbb;
+  border-radius: 8px;
+}
+
+.empty-history p {
+  margin: 0.5rem 0;
+}
+
+@media (max-width: 600px) {
+  .lesson-header {
+    flex-direction: column;
+  }
+
+  .lesson-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .differentiation-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lesson-footer {
+    flex-direction: column;
+  }
 }
