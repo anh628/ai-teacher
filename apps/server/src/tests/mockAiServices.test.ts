@@ -1,23 +1,16 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { aiService } from "../services";
+import { TEST_VALID_INPUT } from "./constants";
 
 describe("AI service generating a structure lesson", () => {
   it("generates a lesson with the provided input", async () => {
-    const lesson = await aiService.generateLesson({
-      grade: 4,
-      subject: "Science",
-      topic: "The Water Cycle",
-      objective: "Students will explain the main stages.",
-    });
+    const lesson = await aiService.generateLesson(TEST_VALID_INPUT);
 
-    assert.equal(lesson.grade, 4);
-    assert.equal(lesson.subject, "Science");
-    assert.equal(lesson.topic, "The Water Cycle");
-    assert.equal(
-      lesson.objective,
-      "Students will explain the main stages."
-    );
+    assert.equal(lesson.grade, TEST_VALID_INPUT.grade);
+    assert.equal(lesson.subject, TEST_VALID_INPUT.subject);
+    assert.equal(lesson.topic, TEST_VALID_INPUT.topic);
+    assert.equal(lesson.objective, TEST_VALID_INPUT.objective);
     assert.equal(lesson.generatedBy, "mock-ai");
   });
 
@@ -35,22 +28,15 @@ describe("AI service generating a structure lesson", () => {
 
   it("generates different content for different grade levels", async () => {
     const elementaryLesson = await aiService.generateLesson({
+      ...TEST_VALID_INPUT,
       grade: 3,
-      subject: "Science",
-      topic: "Plants",
-      objective: "Students will describe how plants grow.",
     });
 
     const highSchoolLesson = await aiService.generateLesson({
+      ...TEST_VALID_INPUT,
       grade: 11,
-      subject: "Science",
-      topic: "Plants",
-      objective: "Students will describe how plants grow.",
     });
 
-    assert.notEqual(
-      elementaryLesson.activity,
-      highSchoolLesson.activity
-    );
+    assert.notEqual(elementaryLesson.activity, highSchoolLesson.activity);
   });
 });

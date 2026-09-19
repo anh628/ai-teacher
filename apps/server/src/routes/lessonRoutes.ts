@@ -1,7 +1,5 @@
-import {
-  validateLesson,
-  validateLessonRequest,
-} from "../utils/validateLessonRequest";
+import { validateLessonRequest } from "../utils/validateLessonRequest";
+import { validateLesson } from "../utils/validateLesson";
 import { aiService } from "../services";
 import {
   getAllLessons,

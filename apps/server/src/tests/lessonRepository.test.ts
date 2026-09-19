@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 
 import { pool } from "../db/index";
 import { getLessonById, saveLesson } from "../db/lessonRepository";
+import { TEST_VALID_LESSON } from "./constants";
 
 test("getLessonById returns a saved lesson", async () => {
   const lesson = await getLessonById(1);
@@ -22,38 +23,14 @@ after(async () => {
 });
 
 test("saveLesson saves and returns a lesson", async () => {
-  const lesson = {
-    grade: 4,
-    subject: "Science",
-    topic: "Plant Life Cycles",
-    objective: "Students will explain the main stages of a plant life cycle.",
-    lessonTitle: "Understanding Plant Life Cycles",
-    activity:
-      "Have students observe and sequence the stages of a plant life cycle.",
-    discussionQuestions: [
-      "What are the main stages of a plant life cycle?",
-      "What changes as a plant grows?",
-      "How would you explain the life cycle to a classmate?",
-    ],
-    differentiation: {
-      support:
-        "Provide labeled diagrams and vocabulary support.",
-      extension:
-        "Ask students to create a diagram showing the plant life cycle.",
-    },
-    assessment:
-      "Ask students to describe the stages of a plant life cycle in order.",
-    generatedBy: "mock-ai",
-  };
-
-  const savedLesson = await saveLesson(lesson);
+  const savedLesson = await saveLesson(TEST_VALID_LESSON);
 
   assert.ok(savedLesson.id);
-  assert.equal(savedLesson.grade, lesson.grade);
-  assert.equal(savedLesson.subject, lesson.subject);
-  assert.equal(savedLesson.topic, lesson.topic);
-  assert.equal(savedLesson.objective, lesson.objective);
-  assert.equal(savedLesson.lessonTitle, lesson.lessonTitle);
-  assert.equal(savedLesson.generatedBy, lesson.generatedBy);
+  assert.equal(savedLesson.grade, TEST_VALID_LESSON.grade);
+  assert.equal(savedLesson.subject, TEST_VALID_LESSON.subject);
+  assert.equal(savedLesson.topic, TEST_VALID_LESSON.topic);
+  assert.equal(savedLesson.objective, TEST_VALID_LESSON.objective);
+  assert.equal(savedLesson.lessonTitle, TEST_VALID_LESSON.lessonTitle);
+  assert.equal(savedLesson.generatedBy, TEST_VALID_LESSON.generatedBy);
   assert.ok(savedLesson.createdAt);
 });
