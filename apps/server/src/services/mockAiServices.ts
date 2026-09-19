@@ -1,42 +1,34 @@
 import type { LessonRequest, Lesson } from "@ai-teacher/shared";
+import type { AIService } from "./aiService";
 
-/**
- * Generates a lesson based on the provided input parameters.
- * Mock an AI-generated lesson for the given grade, subject, topic, and objective.
- * @param grade - The grade level for which the lesson is intended.
- * @param subject - The subject area of the lesson.
- * @param topic - The specific topic to be covered in the lesson.
- * @param objective - The learning objective for the lesson.
- * @returns A Lesson object containing the generated lesson details.
- */
-export function generate({
-  grade,
-  subject,
-  topic,
-  objective,
-}: LessonRequest): Lesson {
-  return {
-    grade,
-    subject,
-    topic,
-    objective,
-    lessonTitle: `Lesson: ${topic}`,
-    activity: getActivity(
-      getGradeLevel(grade),
-      normalizeSubject(subject),
+export const mockAIService: AIService = {
+
+  async generateLesson(input: LessonRequest): Promise<Lesson> {
+    const { grade, subject, topic, objective } = input;
+    return {
+      grade,
+      subject,
       topic,
       objective,
-    ),
-    discussionQuestions: getDiscussionQuestions(
-      getGradeLevel(grade),
-      normalizeSubject(subject),
-      topic,
-    ),
-    differentiation: getDifferentiation(topic, getGradeLevel(grade)),
-    assessment: getAssessment(normalizeSubject(subject), topic),
-    generatedBy: "mock-ai",
-  };
-}
+      lessonTitle: `Lesson: ${topic}`,
+      activity: getActivity(
+        getGradeLevel(grade),
+        normalizeSubject(subject),
+        topic,
+        objective,
+      ),
+      discussionQuestions: getDiscussionQuestions(
+        getGradeLevel(grade),
+        normalizeSubject(subject),
+        topic,
+      ),
+      differentiation: getDifferentiation(topic, getGradeLevel(grade)),
+      assessment: getAssessment(normalizeSubject(subject), topic),
+      generatedBy: "mock-ai",
+    };
+  },
+};
+
 
 /**
  * Normalizes the subject string to lowercase for consistent processing.

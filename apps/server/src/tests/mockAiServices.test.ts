@@ -1,10 +1,10 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { generate } from "../services/mockAiServices";
+import { aiService } from "../services";
 
-describe("generate", () => {
-  it("generates a lesson with the provided input", () => {
-    const lesson = generate({
+describe("AI service generating a structure lesson", () => {
+  it("generates a lesson with the provided input", async () => {
+    const lesson = await aiService.generateLesson({
       grade: 4,
       subject: "Science",
       topic: "The Water Cycle",
@@ -21,8 +21,8 @@ describe("generate", () => {
     assert.equal(lesson.generatedBy, "mock-ai");
   });
 
-  it("generates subject-specific math content", () => {
-    const lesson = generate({
+  it("generates subject-specific math content", async () => {
+    const lesson = await aiService.generateLesson({
       grade: 5,
       subject: "Math",
       topic: "Fractions",
@@ -33,15 +33,15 @@ describe("generate", () => {
     assert.match(lesson.assessment, /Fractions/);
   });
 
-  it("generates different content for different grade levels", () => {
-    const elementaryLesson = generate({
+  it("generates different content for different grade levels", async () => {
+    const elementaryLesson = await aiService.generateLesson({
       grade: 3,
       subject: "Science",
       topic: "Plants",
       objective: "Students will describe how plants grow.",
     });
 
-    const highSchoolLesson = generate({
+    const highSchoolLesson = await aiService.generateLesson({
       grade: 11,
       subject: "Science",
       topic: "Plants",
