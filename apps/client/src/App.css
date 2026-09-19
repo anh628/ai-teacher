@@ -240,14 +240,14 @@ button:disabled {
   font-size: 0.85rem;
 }
 
-.empty-history {
+.empty-page {
   padding: 2rem;
   text-align: center;
   border: 1px dashed #bbb;
   border-radius: 8px;
 }
 
-.empty-history p {
+.empty-page p {
   margin: 0.5rem 0;
 }
 

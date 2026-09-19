@@ -36,7 +36,7 @@ function AppContent() {
           {/* clears old error */}
           <Link to="/" onClick={() => setError("")}>Generate Lesson </Link>
           {" | "}
-          <Link to="/history">Lessons History</Link>
+          <Link to="/history">Lesson History</Link>
         </nav>
       </header>
 
