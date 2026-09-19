@@ -2,7 +2,7 @@ import {
   validateLesson,
   validateLessonRequest,
 } from "../utils/validateLessonRequest";
-import { generate } from "../services/mockAiServices";
+import { aiService } from "../services";
 import {
   getAllLessons,
   getLessonById,
@@ -16,7 +16,7 @@ const router = Router();
  * @desc Generate a lesson based on the provided input parameters.
  * @access Public
  */
-router.post("/generate", (req: Request, res: Response) => {
+router.post("/generate", async (req: Request, res: Response) => {
   const { grade, subject, topic, objective } = req.body;
 
   if (!validateLessonRequest({ grade, subject, topic, objective })) {
@@ -26,7 +26,7 @@ router.post("/generate", (req: Request, res: Response) => {
     });
   }
   try {
-    const lesson = generate({
+    const lesson = await aiService.generateLesson({
       grade,
       subject: subject.trim(),
       topic: topic.trim(),
