@@ -35,7 +35,12 @@ export default function LessonDisplay({
   }
 
   if (!lesson) {
-    return null;
+    return (
+      <div className="empty-page">
+        <p>No lesson to view.</p>
+        <p>Generate a new lesson or view your lesson history.</p>
+      </div>
+    );
   }
 
   return (
@@ -73,9 +78,11 @@ export default function LessonDisplay({
         <div className="lesson-section">
           <h3>Discussion Questions</h3>
           <ul>
-            {lesson.discussionQuestions.map((question: string, index: number) => (
-              <li key={index}>{question}</li>
-            ))}
+            {lesson.discussionQuestions.map(
+              (question: string, index: number) => (
+                <li key={index}>{question}</li>
+              ),
+            )}
           </ul>
         </div>
 

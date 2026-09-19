@@ -51,7 +51,7 @@ export default function LessonsHistoryDisplay({
       </div>
 
       {lessons.length === 0 ? (
-        <div className="empty-history">
+        <div className="empty-page">
           <p>No saved lessons yet.</p>
           <p>Generate a lesson and save it to see it here.</p>
         </div>
