@@ -2,40 +2,17 @@ import { test, after } from "node:test";
 import assert from "node:assert/strict";
 
 import { pool } from "../db/index";
+import { TEST_INVALID_LESSON, TEST_VALID_LESSON } from "./constants";
 
 const API_URL = "http://localhost:3001";
 
 test("POST /api/lessons/save saves a lesson", async () => {
-  const lesson = {
-    grade: 3,
-    subject: "Science",
-    topic: "Animal Habitats",
-    objective: "Students will identify how animals use their habitats.",
-    lessonTitle: "Exploring Animal Habitats",
-    activity:
-      "Have students match animals with the habitats where they live.",
-    discussionQuestions: [
-      "What is a habitat?",
-      "Why do animals need specific habitats?",
-      "How does a habitat help an animal survive?",
-    ],
-    differentiation: {
-      support:
-        "Provide animal and habitat picture cards.",
-      extension:
-        "Ask students to explain how an animal's features help it live in its habitat.",
-    },
-    assessment:
-      "Ask students to identify an animal's habitat and explain why it is suitable.",
-    generatedBy: "mock-ai",
-  };
-
   const response = await fetch(`${API_URL}/api/lessons/save`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(lesson),
+    body: JSON.stringify(TEST_VALID_LESSON),
   });
 
   assert.equal(response.status, 201);
@@ -43,37 +20,14 @@ test("POST /api/lessons/save saves a lesson", async () => {
   const savedLesson = await response.json();
 
   assert.ok(savedLesson.id);
-  assert.equal(savedLesson.subject, lesson.subject);
-  assert.equal(savedLesson.topic, lesson.topic);
-  assert.equal(savedLesson.generatedBy, lesson.generatedBy);
+  assert.equal(savedLesson.subject, TEST_VALID_LESSON.subject);
+  assert.equal(savedLesson.topic, TEST_VALID_LESSON.topic);
+  assert.equal(savedLesson.generatedBy, TEST_VALID_LESSON.generatedBy);
   assert.ok(savedLesson.createdAt);
 });
 
 test("POST /api/lessons/save rejects an invalid grade", async () => {
-  const lesson = {
-    grade: 0,
-    subject: "Science",
-    topic: "Animal Habitats",
-    objective: "Students will identify how animals use their habitats.",
-    lessonTitle: "Exploring Animal Habitats",
-    activity:
-      "Have students match animals with the habitats where they live.",
-    discussionQuestions: [
-      "What is a habitat?",
-      "Why do animals need specific habitats?",
-      "How does a habitat help an animal survive?",
-    ],
-    differentiation: {
-      support:
-        "Provide animal and habitat picture cards.",
-      extension:
-        "Ask students to explain how an animal's features help it live in its habitat.",
-    },
-    assessment:
-      "Ask students to identify an animal's habitat and explain why it is suitable.",
-    generatedBy: "mock-ai",
-  };
-
+  const lesson = { ...TEST_VALID_LESSON, grade: 0 };
 
   const response = await fetch(`${API_URL}/api/lessons/save`, {
     method: "POST",
@@ -87,23 +41,15 @@ test("POST /api/lessons/save rejects an invalid grade", async () => {
 });
 
 test("POST /api/lessons/save rejects missing lesson data", async () => {
-  const lesson = {
-    grade: 0,
-    subject: "Science",
-    topic: "Animal Habitats",
-    objective: "Students will identify how animals use their habitats.",
-  };
-
-
   const response = await fetch(`${API_URL}/api/lessons/save`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(lesson),
+    body: JSON.stringify(TEST_INVALID_LESSON),
   });
 
-  assert.equal(response.status, 500);
+  assert.equal(response.status, 400);
 });
 
 test("GET /api/lessons returns saved lessons", async () => {

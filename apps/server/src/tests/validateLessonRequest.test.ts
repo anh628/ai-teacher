@@ -1,17 +1,11 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { validateLessonRequest } from "../utils/validateLessonRequest";
+import { TEST_VALID_INPUT } from "./constants";
 
 describe("validateLessonRequest", () => {
   it("accepts a valid lesson request", () => {
-    const input = {
-      grade: 4,
-      subject: "Science",
-      topic: "The Water Cycle",
-      objective: "Students will explain the water cycle.",
-    };
-
-    assert.equal(validateLessonRequest(input), true);
+    assert.equal(validateLessonRequest(TEST_VALID_INPUT), true);
   });
 
   it("rejects missing fields", () => {
@@ -19,25 +13,17 @@ describe("validateLessonRequest", () => {
   });
 
   it("rejects an invalid grade", () => {
-    const input = {
-      grade: 13,
-      subject: "Science",
-      topic: "The Water Cycle",
-      objective: "Students will explain the water cycle.",
-    };
-
-    assert.equal(validateLessonRequest(input), false);
+    assert.equal(
+      validateLessonRequest({ ...TEST_VALID_INPUT, grade: 13 }),
+      false,
+    );
   });
 
   it("rejects an invalid grade type", () => {
-    const input = {
-      grade: "four",
-      subject: "Science",
-      topic: "The Water Cycle",
-      objective: "Students will explain the water cycle.",
-    };
-
-    assert.equal(validateLessonRequest(input), false);
+    assert.equal(
+      validateLessonRequest({ ...TEST_VALID_INPUT, grade: "four" }),
+      false,
+    );
   });
 
   it("rejects empty strings", () => {
