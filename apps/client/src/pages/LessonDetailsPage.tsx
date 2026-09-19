@@ -51,5 +51,5 @@ export default function LessonDetailsPage({
       </section>
     );
   }
-  return <LessonDisplay lesson={lesson} setError={setError} />;
+  return <LessonDisplay lesson={lesson}/>;
 }

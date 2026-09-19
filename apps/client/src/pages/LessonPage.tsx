@@ -1,4 +1,4 @@
-import LessonDisplay from "../components/LessonDisplay";
+import EditableLessonDisplay from "../components/EditableLessonDisplay";
 import type { Lesson } from "@ai-teacher/shared";
 
 type LessonDisplayProps = {
@@ -8,7 +8,7 @@ type LessonDisplayProps = {
 
 export default function LessonPage({ lesson, setError }: LessonDisplayProps) {
   return lesson ? (
-    <LessonDisplay lesson={lesson} setError={setError} />
+    <EditableLessonDisplay lesson={lesson} setError={setError} />
   ) : (
     <section className="lesson">
       <h2>No Lesson Available</h2>

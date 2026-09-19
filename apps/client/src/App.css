@@ -157,8 +157,20 @@ button:disabled {
   margin-top: 0;
 }
 
+.lesson-section ul {
+  padding-left: 24px;
+}
 .lesson-section li {
   margin-bottom: 0.5rem;
+}
+
+.lesson-section li.editable-field {
+  padding: 0.4rem;
+  border-radius: 4px;
+}
+
+.lesson-section li.editable-field:hover {
+  background-color: rgba(0, 0, 0, 0.03);
 }
 
 .differentiation-grid {
@@ -211,7 +223,7 @@ button:disabled {
 
 .lesson-history-list a:hover {
   background-color: #e5eaf5;
-  color: #8458B3;
+  color: #8458b3;
 }
 
 .history-header {
@@ -267,4 +279,65 @@ button:disabled {
   .lesson-footer {
     flex-direction: column;
   }
+}
+
+.editable-field {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath fill='white' d='M4 17.25V21h3.75L18.81 9.94l-3.75-3.75L4 17.25zM20.71 8.04c.39-.39.39-1.02 0-1.41l-2.34-2.34a.9959.9959 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z'/%3E%3C/svg%3E")
+      2 22,
+    text;
+}
+
+.editable-field:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.edit-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.edit-field input,
+.edit-field textarea {
+  flex: 1;
+  width: 100%;
+  padding: 8px 10px;
+  font: inherit;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.edit-field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.edit-field button {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.ai-badge {
+  display: inline-block;
+  padding: 0.3rem 0.65rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid #e1e1e1;
+  border-radius: 999px;
+  color: #666;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background-color: #fafafa;
+}
+
+.lesson-review-note {
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  border-left: 3px solid #d5d5d5;
+  border-radius: 4px;
+  color: #666;
+  font-size: 0.9rem;
+  background-color: #fafafa;
 }

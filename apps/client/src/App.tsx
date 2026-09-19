@@ -1,6 +1,5 @@
 import LessonsHistoryDisplay from "./components/LessonsHistoryDisplay";
 import GenerateLessonPage from "./pages/GenerateLessonPage";
-import LessonDisplay from "./components/LessonDisplay";
 import type { Lesson } from "@ai-teacher/shared";
 import { useState } from "react";
 import {
@@ -13,6 +12,7 @@ import {
 
 import "./App.css";
 import LessonDetailsPage from "./pages/LessonDetailsPage";
+import EditableLessonDisplay from "./components/EditableLessonDisplay";
 
 function AppContent() {
   const [lesson, setLesson] = useState<Lesson | null>(null);
@@ -54,7 +54,7 @@ function AppContent() {
         />
         <Route
           path="/lesson"
-          element={<LessonDisplay lesson={lesson} setError={setError} />}
+          element={<EditableLessonDisplay lesson={lesson} setError={setError} />}
         />
         <Route path="/history" element={<LessonsHistoryDisplay setError={setError}/>} />
         <Route path="/history/:id" element={<LessonDetailsPage setError={setError}/>} />
