@@ -2,104 +2,105 @@
 
 AI Classroom Assistant is a full-stack educational application that helps teachers generate structured lesson plans from a grade level, subject, topic, and learning objective.
 
-The project explores practical applications of AI in education while focusing on clear API design, data persistence, reusable TypeScript types, provider abstraction, and testable application architecture.
+The project explores practical applications of AI in education while focusing on clear API design, data persistence, reusable TypeScript types, provider abstraction, AI response validation, and a teacher-in-the-loop workflow.
 
-The application supports both a deterministic mock AI service and a local LLM provider through Ollama. The AI provider is separated from the Express API layer so the application can switch providers without changing the API contract.
+Teachers can review and edit AI-generated lesson content before saving it to their lesson history.
 
 ## Features
 
-* Generate structured lesson plans
-* Grade and subject-specific lesson content
-* Request validation
-* AI-generated lesson validation
-* Save generated lessons to PostgreSQL
-* View saved lesson history
-* View individual saved lessons
-* REST API
-* Shared TypeScript types across frontend and backend
-* Automated tests
-* Swappable AI provider architecture
-* Local LLM support through Ollama
-* Mock AI service for development and testing
+- Generate structured lesson plans
+- Grade and subject-specific lesson content
+- Local AI generation with Ollama and Llama 3
+- Mock AI provider for development and testing
+- Swappable AI provider architecture
+- Request validation
+- AI-generated response validation
+- Teacher review and editing before saving
+- Save generated lessons to PostgreSQL
+- View saved lesson history
+- View individual saved lessons
+- REST API
+- Shared TypeScript types across frontend and backend
+- Automated backend tests
+- Empty-state and error handling
+- Environment-based configuration
 
 ## Tech Stack
 
-### Frontend
+**Frontend**
+- React
+- TypeScript
+- React Router
+- Vite
 
-* React
-* TypeScript
-* React Router
-* Vite
+**Backend**
+- Node.js
+- Express
+- TypeScript
+- PostgreSQL
 
-### Backend
+**AI**
+- Ollama
+- Llama 3
+- Mock AI provider
 
-* Node.js
-* Express
-* TypeScript
-* PostgreSQL
-
-### AI
-
-* Ollama
-* Llama 3
-* Mock AI provider
-
-### Testing
-
-* Node.js built-in test runner
-
-The backend includes automated tests for:
-
-* Lesson generation
-* Lesson request validation
-* Generated lesson validation
-* Saving a lesson
-* Retrieving all saved lessons
-* Retrieving a lesson by ID
-* Handling a missing lesson
-* Handling invalid lesson IDs
-
-The Ollama integration test can be enabled separately so the standard test suite does not require Ollama to be running.
+**Testing**
+- Node.js built-in test runner
 
 ## AI Architecture
 
-The application uses an AI service abstraction to keep provider-specific logic separate from the API layer.
+The AI generation logic is separated from the Express API layer through a common service interface.
 
 ```text
-React frontend
+React Frontend
       ↓
 POST /api/lessons/generate
       ↓
-AI service interface
+AI Service Interface
       ↓
-Provider selection
-   ↙       ↘
-Mock       Ollama
-AI         ↓
-           Llama 3
+Configured Provider
+   ↙          ↘
+Mock AI      Ollama
+                ↓
+             Llama 3
       ↓
-Structured lesson
+Validate AI Response
       ↓
-Provider response validation
+Generated Lesson
       ↓
-React frontend
+Teacher Reviews and Edits
+      ↓
+POST /api/lessons/save
+      ↓
+PostgreSQL
 ```
 
-The provider is selected through the `AI_PROVIDER` environment variable.
-
-Example:
+The provider is selected through the `AI_PROVIDER` environment variable:
 
 ```env
 AI_PROVIDER=ollama
 ```
 
-For development without Ollama:
+or:
 
 ```env
 AI_PROVIDER=mock
 ```
 
-The API route interacts with the common AI service interface rather than directly calling Ollama. This allows the AI provider to be changed without redesigning the API layer.
+This allows the application to switch AI providers without changing the API contract or frontend.
+
+## Teacher Review Workflow
+
+AI-generated content is treated as a starting point rather than final instructional material.
+
+After a lesson is generated, the teacher can:
+
+1. Review the generated lesson.
+2. Edit the lesson title, subject, topic, objective, activity, discussion questions, differentiation, and assessment.
+3. Adapt the content for their classroom.
+4. Save the reviewed lesson to PostgreSQL.
+
+The application displays the AI provider used to generate the lesson and reminds teachers to review and adapt the content before using it with students.
 
 ## Application Flow
 
@@ -108,27 +109,23 @@ Teacher enters lesson requirements
             ↓
 React frontend
             ↓
-POST /api/lessons/generate
+Generate lesson API
             ↓
 AI service
             ↓
-Configured AI provider
-      ↙             ↘
-   Mock AI        Ollama
-                     ↓
-                  Llama 3
-      ↘             ↙
-        Generated lesson
-              ↓
-     Validate AI response
-              ↓
-       Teacher reviews
-              ↓
-      POST /api/lessons/save
-              ↓
-          PostgreSQL
-              ↓
-        Lesson History
+Ollama / Mock AI
+            ↓
+Validate generated response
+            ↓
+Display lesson
+            ↓
+Teacher reviews and edits
+            ↓
+Save lesson
+            ↓
+PostgreSQL
+            ↓
+Lesson History
 ```
 
 ## Project Structure
@@ -137,14 +134,14 @@ Configured AI provider
 ai-teacher/
 ├── apps/
 │   ├── client/
-│   │   └── React + TypeScript frontend
+│   │   └── React frontend
 │   │
 │   └── server/
-│       ├── routes/        # API routes
-│       ├── services/      # AI provider services
-│       ├── db/            # PostgreSQL connection and repositories
-│       ├── utils/         # Validation utilities
-│       └── tests/         # Backend tests
+│       ├── routes/
+│       ├── services/
+│       ├── db/
+│       ├── utils/
+│       └── tests/
 │
 └── packages/
     └── shared/
@@ -153,100 +150,117 @@ ai-teacher/
 
 ## API Endpoints
 
-| Method | Endpoint                | Description                   |
-| ------ | ----------------------- | ----------------------------- |
-| GET    | `/api/health`           | Check API health              |
-| POST   | `/api/lessons/generate` | Generate a lesson plan        |
-| POST   | `/api/lessons/save`     | Save a generated lesson       |
-| GET    | `/api/lessons`          | Retrieve saved lessons        |
-| GET    | `/api/lessons/:id`      | Retrieve a saved lesson by ID |
+| Method | Endpoint | Description |
+|---|---|---|
+| GET | `/api/health` | Check API status |
+| POST | `/api/lessons/generate` | Generate a lesson |
+| POST | `/api/lessons/save` | Save a reviewed lesson |
+| GET | `/api/lessons` | Retrieve saved lessons |
+| GET | `/api/lessons/:id` | Retrieve one saved lesson |
 
 ## Local Development
 
 ### Prerequisites
 
-* Node.js
-* PostgreSQL
-* Ollama
-* Llama 3, if using the local AI provider
+- Node.js
+- PostgreSQL
+- Ollama
+- Llama 3
 
-### Install dependencies
+Ollama allows the project to use a local language model without requiring a paid API key.
 
-From the project root:
+### 1. Clone the repository
 
 ```bash
-npm install
+git clone <repository-url>
+cd ai-teacher
 ```
 
-### Configure the backend
+### 2. Configure PostgreSQL
 
-Create `apps/server/.env`:
+Create the database:
+
+```bash
+createdb ai_teacher
+```
+
+Create the `lessons` table using the SQL schema in the project.
+
+### 3. Configure the server
+
+Create:
+
+```text
+apps/server/.env
+```
+
+Add:
 
 ```env
 DATABASE_URL=postgresql://localhost:5432/ai_teacher
 AI_PROVIDER=ollama
 ```
 
-The database must exist before starting the backend.
+### 4. Set up Ollama
 
-### Start Ollama
-
-Make sure Ollama is installed and the selected model is available:
+Check that Ollama is installed:
 
 ```bash
 ollama list
 ```
 
-If Llama 3 has not been downloaded:
+Pull Llama 3 if necessary:
 
 ```bash
 ollama pull llama3
 ```
 
-Ollama runs locally and does not require a paid API key.
+Make sure Ollama is running before generating lessons.
 
-### Start the frontend
+### 5. Start the backend
 
 ```bash
-cd apps/client
+cd apps/server
+npm install
 npm run dev
 ```
 
-### Start the backend
+The API runs at:
+
+```text
+http://localhost:3000
+```
+
+### 6. Start the frontend
 
 In another terminal:
 
 ```bash
-cd apps/server
+cd apps/client
+npm install
 npm run dev
 ```
 
-The backend runs at:
-
-```text
-http://localhost:3001
-```
-
-The frontend runs at the Vite development URL shown in the terminal.
+The Vite development server will provide the local frontend URL.
 
 ## Testing
 
-Run the standard test suite:
+Run the backend test suite:
 
 ```bash
 cd apps/server
 npm test
 ```
 
-The standard test suite does not require Ollama.
+The project includes tests for request validation, generated lesson validation, repository behavior, API behavior, and other backend functionality.
 
-To run the Ollama integration test:
+Ollama integration tests can be enabled with:
 
 ```bash
 RUN_OLLAMA_TESTS=true npm test
 ```
 
-Ollama must be running and the configured model must be available for the integration test.
+Ollama must be running for the local AI integration tests.
 
 ## Build
 
@@ -264,19 +278,42 @@ cd apps/client
 npm run build
 ```
 
-Or build both from the project root:
+## Design Decisions
 
-```bash
-cd apps/server && npm run build && cd ../client && npm run build
-```
+### Provider abstraction
+
+The AI provider is separated from the API layer so that the application does not depend directly on a specific LLM provider.
+
+This makes it possible to use a deterministic mock service during development and testing while also supporting a local LLM through Ollama.
+
+### AI response validation
+
+LLM output is treated as untrusted external data. The application validates the generated response before converting it into the application's `Lesson` structure.
+
+### Shared TypeScript types
+
+The frontend and backend use shared TypeScript types to keep the lesson data contract consistent across the application.
+
+### Human-in-the-loop AI
+
+Generated lessons are presented as editable drafts. Teachers remain responsible for reviewing and adapting the content before saving and using it.
 
 ## Future Improvements
 
-* Add user authentication
-* Add lesson editing
-* Add additional lesson-generation options
-* Expand automated test coverage
-* Add additional local or hosted AI providers
-* Improve lesson-generation prompts
-* Add teacher feedback to generated lessons
-* Add structured AI evaluation and quality checks
+Potential future improvements include:
+
+- User authentication
+- Lesson editing after saving
+- Additional AI providers
+- More configurable lesson formats
+- Teacher feedback on generated lessons
+- Improved prompt customization
+- Additional automated test coverage
+- Structured evaluation of generated lesson quality
+- More classroom-specific personalization
+
+## Project Purpose
+
+This project was built as a portfolio application to explore the intersection of software engineering, educational technology, and practical AI development.
+
+It demonstrates a full-stack workflow from user input and API design through AI integration, response validation, human review, and persistent data storage.
