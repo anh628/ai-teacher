@@ -24,7 +24,7 @@ export default function LessonDetailsPage({
         return;
       }
       try {
-        setError("");
+        setError(null);
         const data = await getLessonById(Number(id));
         setLesson(data);
       } catch (error) {

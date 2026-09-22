@@ -22,7 +22,7 @@ export default function GenerateLessonPage({
     event.preventDefault();
 
     setLoading(true);
-    setError("");
+    setError(null);
 
     try {
       const lesson = await generateLesson({

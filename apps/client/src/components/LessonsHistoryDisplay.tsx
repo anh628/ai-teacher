@@ -16,7 +16,7 @@ export default function LessonsHistoryDisplay({
   useEffect(() => {
     async function loadLessons() {
       try {
-        setError("");
+        setError(null);
 
         const data = await getAllLessons();
         setLessons(data);

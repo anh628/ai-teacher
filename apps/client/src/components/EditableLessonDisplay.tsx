@@ -52,6 +52,7 @@ export default function EditableLessonDisplay({
   const [saving, setSaving] = useState<boolean>(false);
 
   async function handleSave() {
+
     if (!editedLesson) {
       return;
     }
@@ -61,6 +62,7 @@ export default function EditableLessonDisplay({
     try {
       await saveLesson(editedLesson);
       setSaved(true);
+      setError(null)
     } catch (error) {
       setError(
         error instanceof Error
