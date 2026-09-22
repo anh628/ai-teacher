@@ -6,6 +6,20 @@ The project explores practical applications of AI in education while focusing on
 
 Teachers can review and edit AI-generated lesson content before saving it to their lesson history.
 
+## Screenshots
+
+### Generate Lesson
+
+<img src="docs/screenshots/generateLesson.png" alt="Generate Lesson" width="700">
+
+### Editable Generated Lesson
+
+<img src="docs/screenshots/editableLessonDisplay.png" alt="Editable Generated Lesson" width="700">
+
+### Lesson History
+
+<img src="docs/screenshots//lessonHistory.png" alt="Lesson History" width="700">
+
 ## Features
 
 - Generate structured lesson plans
@@ -142,6 +156,11 @@ ai-teacher/
 │       ├── db/
 │       ├── utils/
 │       └── tests/
+├── docs/
+│   └── screenshots/
+│       ├── generateLesson.png
+│       ├── editableLessonDisplay.png
+│       └── lessonHistory.png
 │
 └── packages/
     └── shared/
@@ -184,7 +203,17 @@ Create the database:
 createdb ai_teacher
 ```
 
-Create the `lessons` table using the SQL schema in the project.
+Connect to the database:
+```bash
+psql ai_teacher
+```
+
+Run the database migration:
+```bash
+apps/server/db/migrations/001_create_lessons.sql
+```
+
+The migration creates the `lessons` table used to persist generated and reviewed lessons.
 
 ### 3. Configure the server
 
@@ -228,7 +257,7 @@ npm run dev
 The API runs at:
 
 ```text
-http://localhost:3000
+http://localhost:3001
 ```
 
 ### 6. Start the frontend
@@ -297,6 +326,11 @@ The frontend and backend use shared TypeScript types to keep the lesson data con
 ### Human-in-the-loop AI
 
 Generated lessons are presented as editable drafts. Teachers remain responsible for reviewing and adapting the content before saving and using it.
+
+### PostgreSQL Persistence
+Reviewed lessons are stored in PostgreSQL so teachers can return to previously generated lessons through the lesson history interface.
+
+The database layer is separated from the API routes through repository functions, keeping persistence logic independent from request handling.
 
 ## Future Improvements
 
