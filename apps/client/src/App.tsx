@@ -17,12 +17,12 @@ import EditableLessonDisplay from "./components/EditableLessonDisplay";
 function AppContent() {
   const [lesson, setLesson] = useState<Lesson | null>(null);
   
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<string|null>(null);
 
   const navigate = useNavigate();
 
   function handleLessonGenerated(lesson: Lesson) {
-    setError("");
+    setError(null);
     setLesson(lesson);
     navigate("/lesson");
   }
@@ -34,7 +34,7 @@ function AppContent() {
 
         <nav>
           {/* clears old error */}
-          <Link to="/" onClick={() => setError("")}>Generate Lesson </Link>
+          <Link to="/" onClick={() => setError(null)}>Generate Lesson </Link>
           {" | "}
           <Link to="/history">Lesson History</Link>
         </nav>
