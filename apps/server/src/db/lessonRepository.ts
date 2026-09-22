@@ -40,7 +40,7 @@ export async function saveLesson(lesson: Lesson) {
       lesson.objective,
       lesson.lessonTitle,
       lesson.activity,
-      lesson.discussionQuestions,
+      JSON.stringify(lesson.discussionQuestions),
       lesson.differentiation.support,
       lesson.differentiation.extension,
       lesson.assessment,
