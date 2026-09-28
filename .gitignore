@@ -3,3 +3,9 @@ dist/
 .env
 .env.*
 .DS_Store
+
+apps/api-rails/.env
+apps/api-rails/log/
+apps/api-rails/tmp/
+apps/api-rails/storage/
+apps/api-rails/config/master.key
